@@ -8,6 +8,7 @@ function App() {
 
 
   // States
+  // Current chain user is on
   const [chain, useChain] = useState<"Solana" | "Ethereum">("Solana");
 
 
