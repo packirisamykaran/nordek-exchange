@@ -7,7 +7,7 @@ import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
 
 
 interface WalletsProps {
-  chain: "Solana" | "Ethereum";
+  chain: string;
 }
 
 export default function Wallets({ chain }: WalletsProps) {

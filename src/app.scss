@@ -4,9 +4,37 @@ $deep-pink: #d846a5;
 $medium-blue: #4d0eae;
 $plum: #daafff;
 $grey: #141414;
+$logo-blue: #6dc7ec;
+$logo-purple: #6d65fc;
 
+$grey1: #1c2936;
+$grey2: #314256;
+$grey3: #111d28;
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinback {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
 
 .app {
+  position: relative;
+  min-height: 100vh;
+
 
 
 
@@ -27,16 +55,141 @@ $grey: #141414;
 
     .logo {
       max-width: 150px;
-      width: 40%;
+      width: 30%;
     }
-
-
-
-
-
-
 
 
   }
 
+  .main-section {
+
+    width: 90%;
+    max-width: 600px;
+    margin-inline: auto;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+    padding: 1rem 0;
+    background: $grey3;
+    border-radius: 20px;
+
+
+
+
+    button {
+
+      padding: 0.5rem 2.5rem;
+      font-weight: 500;
+      margin: 1rem auto;
+      display: block;
+      font-size: 1.25rem;
+      border-radius: 10px;
+      border: none;
+      background-color: $grey;
+      cursor: pointer;
+
+      span {
+        color: transparent;
+        background: linear-gradient(to right, $logo-blue, $logo-purple);
+        background-clip: text;
+      }
+
+
+
+    }
+
+
+    .select>* {
+      background: $grey2;
+      border: none;
+
+    }
+
+    .select-chain {
+      width: fit-content;
+
+      margin: 0 auto;
+      margin-bottom: 1rem;
+    }
+
+
+
+    .swap-section {
+
+      padding: 0.5rem;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+
+
+
+      .input-group {
+        display: flex;
+        flex-direction: row;
+        gap: 0.25rem;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0.5rem 0.75rem;
+        background-color: $grey1;
+        border-radius: 10px;
+        max-width: 400px;
+
+
+
+
+
+
+        input[type="text"] {
+          background: transparent;
+          color: white;
+          text-align: end;
+          border: none;
+          font-size: 1.5rem;
+          width: fit-content;
+          padding: 0;
+          width: 50%;
+          outline: none;
+
+        }
+
+
+      }
+
+
+      .swap-icon {
+        max-width: 30px;
+        height: auto;
+        cursor: pointer;
+        filter: invert(1);
+
+        animation: spinback 0.2s linear;
+
+      }
+
+      .swap-icon-spin {
+        animation: spin 0.2s linear;
+      }
+
+
+
+
+
+    }
+
+
+  }
+
+}
+
+.select>div>div.css-1fdsijx-ValueContainer>div.css-1dimb5e-singleValue {
+  color: white;
+}
+
+.css-1nmdiq5-menu {
+  color: white;
 }
