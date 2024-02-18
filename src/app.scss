@@ -3,7 +3,40 @@ $white: white;
 $deep-pink: #d846a5;
 $medium-blue: #4d0eae;
 $plum: #daafff;
-$grey: #181414;
+$grey: #141414;
 
 
-.app {}
+.app {
+
+
+
+  .navbar {
+    background: $grey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 600px;
+    margin-top: 1rem;
+    margin-inline: auto;
+    padding: 0rem 1rem;
+
+    gap: 1rem;
+    border-radius: 10px;
+    position: sticky;
+
+    .logo {
+      max-width: 150px;
+      width: 40%;
+    }
+
+
+
+
+
+
+
+
+  }
+
+}
