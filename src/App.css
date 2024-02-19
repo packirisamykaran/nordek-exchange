@@ -77,8 +77,7 @@
 .app .main-section .select-chain {
   width: -moz-fit-content;
   width: fit-content;
-  margin: 0 auto;
-  margin-bottom: 1rem;
+  margin: 1rem auto;
 }
 .app .main-section .swap-section {
   padding: 0.5rem;
@@ -121,6 +120,12 @@
 }
 .app .main-section .swap-section .swap-icon-spin {
   animation: spin 0.2s linear;
+}
+.app .main-section .swap-section .usd-value {
+  color: rgba(255, 255, 255, 0.725);
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: end;
 }
 
 .select > div > div.css-1fdsijx-ValueContainer > div.css-1dimb5e-singleValue {

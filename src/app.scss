@@ -78,6 +78,7 @@ $grey3: #111d28;
 
 
 
+
     button {
 
       padding: 0.5rem 2.5rem;
@@ -115,8 +116,8 @@ $grey3: #111d28;
     .select-chain {
       width: fit-content;
 
-      margin: 0 auto;
-      margin-bottom: 1rem;
+      margin: 1rem auto;
+
     }
 
 
@@ -182,6 +183,15 @@ $grey3: #111d28;
       }
 
 
+      .usd-value {
+        color: rgba(255, 255, 255, 0.725);
+        font-size: 1.25rem;
+        font-weight: 500;
+        text-align: end;
+
+
+
+      }
 
 
 
