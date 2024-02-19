@@ -333,7 +333,7 @@ function App() {
             <input type="text" name="receive-amount" className='receive-amount' onChange={handleAmountChange} value={receiveAmount} placeholder='0.00' onBlur={handleBlur} />
           </div>
           <div className="usd-value">
-            {`$${sendAmount ? (USDvalue * parseFloat(sendAmount)).toFixed(2) : "0"}`}
+            {`$${sendAmount ? (USDvalue * parseFloat(sendAmount)).toFixed(2) : "0"} USD`}
           </div>
         </div>
 
