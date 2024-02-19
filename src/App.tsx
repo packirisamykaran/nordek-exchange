@@ -23,7 +23,7 @@ const chainOptions: OptionType[] = [
 ];
 
 
-const tokenOptions: OptionType[] = [
+const solanaTokenOptions: OptionType[] = [
   { value: 'SOL', label: 'SOL' },
   { value: 'USDC', label: 'USDC' },
   { value: 'JUP', label: 'JUP' },
@@ -32,14 +32,38 @@ const tokenOptions: OptionType[] = [
 ];
 
 
+const ethereumTokenOptions: OptionType[] = [
+  { value: 'ETH', label: 'ETH' },
+  { value: 'MATIC', label: 'MATIC' },
+  { value: 'LINK', label: 'LINK' },
+  { value: 'LTC', label: 'LTC' },
+  { value: 'BNB', label: 'BNB' },
+];
+
 function App() {
   // States
   // Current chain user is on
   const [chain, setChain] = useState(chainOptions[0]);
 
+
+  useEffect(() => {
+
+    if (chain.value === "Ethereum") {
+      setSendToken(ethereumTokenOptions[0]);
+      setReceiveToken(ethereumTokenOptions[1]);
+    }
+    else if (chain.value === "Solana") {
+      setSendToken(solanaTokenOptions[0]);
+      setReceiveToken(solanaTokenOptions[1]);
+    }
+
+  }
+    , [chain]);
+
+
   // Tokens
-  const [sendToken, setSendToken] = useState(tokenOptions[0]);
-  const [receiveToken, setReceiveToken] = useState(tokenOptions[1]);
+  const [sendToken, setSendToken] = useState(solanaTokenOptions[0]);
+  const [receiveToken, setReceiveToken] = useState(solanaTokenOptions[1]);
 
   // Price
   const [price, setPrice] = useState(0);
@@ -107,26 +131,49 @@ function App() {
   // Fetch price
   useEffect(() => {
     const fetchPrice = async () => {
-      const url = `https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=${receiveToken.value}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data && data.data[sendToken.value].price) {
-        setPrice(data.data[sendToken.value].price);
 
-        setReceiveAmount((parseFloat(sendAmount) * data.data[sendToken.value].price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
 
+      if (chain.value === "Solana") {
+        const url = `https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=${receiveToken.value}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data && data.data[sendToken.value].price) {
+          setPrice(data.data[sendToken.value].price);
+
+          setReceiveAmount((parseFloat(sendAmount) * data.data[sendToken.value].price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+
+
+        }
 
       }
+      else if (chain.value === "Ethereum") {
+
+
+        const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${sendToken.value}&tsyms=${receiveToken.value}&api_key=${process.env.REACT_APP_CRYPTO_COMPARE_API_KEY}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data && data[sendToken.value][receiveToken.value]) {
+          setPrice(data[sendToken.value][receiveToken.value]);
+          setReceiveAmount((parseFloat(sendAmount) * data[sendToken.value][receiveToken.value]).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+        }
+      }
+
+
+
+
+
+
+
+
+
     };
 
     fetchPrice();
-  }, [sendToken, receiveToken]);
+  }, [sendToken, receiveToken, chain]);
 
-  // useEffect(() => {
-
-
-
-  // }, [sendAmount, receiveAmount]);
 
 
 
@@ -156,12 +203,12 @@ function App() {
 
         <div className="swap-section">
           <div className="input-group">
-            <Select name="send-token" className='send-token select' onChange={sendTokenChange} value={sendToken} options={tokenOptions} />
+            <Select name="send-token" className='send-token select' onChange={sendTokenChange} value={sendToken} options={chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions} />
             <input type="text" name="send-amount" className='send-amount' onChange={handleAmountChange} value={sendAmount} placeholder='0.00' />
           </div>
           <Swap className={`swap-icon ${switchToken ? 'swap-icon-spin' : ''}`} onClick={switchTokenChange} />
           <div className="input-group">
-            <Select name="receive-token" className='receive-token select' onChange={receiveTokenChange} value={receiveToken} options={tokenOptions} />
+            <Select name="receive-token" className='receive-token select' onChange={receiveTokenChange} value={receiveToken} options={chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions} />
             <input type="text" name="receive-amount" className='receive-amount' onChange={handleAmountChange} value={receiveAmount} placeholder='0.00' />
           </div>
         </div>
