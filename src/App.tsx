@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Wallets from './components/Wallet';
 import { ReactComponent as Logo } from './assets/logo1.svg';
 import { ReactComponent as Swap } from './assets/swap icon.svg';
-import './app.css';
+import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 
