@@ -97,6 +97,7 @@ function App() {
   // Token Amount change handler
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
+    value = value.replace(/^0+/, '') || "0";
     if (value === "" || /^[0-9]*\.?[0-9]*$/.test(value)) {
 
       if (value === "") {
