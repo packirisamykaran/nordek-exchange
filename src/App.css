@@ -16,7 +16,7 @@
 }
 .app {
   position: relative;
-  min-height: 100vh;
+  min-height: 90vh;
 }
 .app .navbar {
   background: #141414;
