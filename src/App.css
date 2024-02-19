@@ -41,7 +41,7 @@
   max-width: 600px;
   margin-inline: auto;
   position: absolute;
-  top: 35%;
+  top: 25%;
   left: 50%;
   transform: translateY(-50%);
   transform: translateX(-50%);
@@ -66,9 +66,13 @@
   -webkit-background-clip: text;
           background-clip: text;
 }
+.app .main-section button:active {
+  scale: 1.05;
+}
 .app .main-section .select > * {
   background: #314256;
   border: none;
+  caret-color: transparent;
 }
 .app .main-section .select-chain {
   width: -moz-fit-content;
@@ -106,6 +110,7 @@
   padding: 0;
   width: 50%;
   outline: none;
+  font-family: sans-serif;
 }
 .app .main-section .swap-section .swap-icon {
   max-width: 30px;

@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Wallets from './components/Wallet';
 import { ReactComponent as Logo } from './assets/logo1.svg';
 import { ReactComponent as Swap } from './assets/swap icon.svg';
 import './app.css';
 
+
 import Select from 'react-select';
 import { SingleValue } from 'react-select';
+import send from 'send';
+import { set } from 'lodash';
 
 
 
@@ -23,9 +26,9 @@ const chainOptions: OptionType[] = [
 const tokenOptions: OptionType[] = [
   { value: 'SOL', label: 'SOL' },
   { value: 'USDC', label: 'USDC' },
-  { value: 'USDT', label: 'USDT' },
-  { value: 'BTC', label: 'BTC' },
-  { value: 'ETH', label: 'ETH' },
+  { value: 'JUP', label: 'JUP' },
+  { value: 'mSOL', label: 'mSOL' },
+  { value: 'WEN', label: 'WEN' },
 ];
 
 
@@ -38,10 +41,13 @@ function App() {
   const [sendToken, setSendToken] = useState(tokenOptions[0]);
   const [receiveToken, setReceiveToken] = useState(tokenOptions[1]);
 
+  // Price
+  const [price, setPrice] = useState(0);
+
 
 
   // Amounts
-  const [sendAmount, setSendAmount] = useState("0.00");
+  const [sendAmount, setSendAmount] = useState("1.00");
   const [receiveAmount, setReceiveAmount] = useState("0.00");
 
 
@@ -66,16 +72,22 @@ function App() {
 
   // Token Amount change handler
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    let value = event.target.value;
     if (value === "" || /^[0-9]*\.?[0-9]*$/.test(value)) {
 
+      if (value === "") {
+        value = "0";
+      }
 
 
       if (event.target.name === "send-amount") {
         setSendAmount(value);
+        setReceiveAmount((parseFloat(value) * price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+
 
       } else if (event.target.name === "receive-amount") {
         setReceiveAmount(value);
+        setSendAmount((parseFloat(value) * price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
       }
 
     }
@@ -90,6 +102,31 @@ function App() {
     setReceiveToken(sendToken);
   };
 
+
+
+  // Fetch price
+  useEffect(() => {
+    const fetchPrice = async () => {
+      const url = `https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=${receiveToken.value}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data && data.data[sendToken.value].price) {
+        setPrice(data.data[sendToken.value].price);
+
+        setReceiveAmount((parseFloat(sendAmount) * data.data[sendToken.value].price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+
+
+      }
+    };
+
+    fetchPrice();
+  }, [sendToken, receiveToken]);
+
+  // useEffect(() => {
+
+
+
+  // }, [sendAmount, receiveAmount]);
 
 
 

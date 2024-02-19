@@ -67,7 +67,7 @@ $grey3: #111d28;
     max-width: 600px;
     margin-inline: auto;
     position: absolute;
-    top: 35%;
+    top: 25%;
     left: 50%;
     transform: translateY(-50%);
     transform: translateX(-50%);
@@ -100,10 +100,15 @@ $grey3: #111d28;
 
     }
 
+    button:active {
+      scale: 1.05;
+    }
+
 
     .select>* {
       background: $grey2;
       border: none;
+      caret-color: transparent;
 
     }
 
@@ -154,6 +159,7 @@ $grey3: #111d28;
           padding: 0;
           width: 50%;
           outline: none;
+          font-family: sans-serif;
 
         }
 
@@ -188,6 +194,7 @@ $grey3: #111d28;
 
 .select>div>div.css-1fdsijx-ValueContainer>div.css-1dimb5e-singleValue {
   color: white;
+
 }
 
 .css-1nmdiq5-menu {
