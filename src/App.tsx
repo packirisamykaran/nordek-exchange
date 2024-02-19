@@ -3,12 +3,13 @@ import Wallets from './components/Wallet';
 import { ReactComponent as Logo } from './assets/logo1.svg';
 import { ReactComponent as Swap } from './assets/swap icon.svg';
 import './app.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 import Select from 'react-select';
 import { SingleValue } from 'react-select';
-import send from 'send';
-import { set } from 'lodash';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -133,32 +134,43 @@ function App() {
   useEffect(() => {
     const fetchPrice = async () => {
 
-
       if (chain.value === "Solana") {
-        const url = `https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=${receiveToken.value}`;
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data && data.data[sendToken.value].price) {
-          setPrice(data.data[sendToken.value].price);
-
-          setReceiveAmount((parseFloat(sendAmount) * data.data[sendToken.value].price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+        try {
+          const url = `https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=${receiveToken.value}`;
+          const response = await fetch(url);
+          const data = await response.json();
 
 
+
+          if (data && data.data[sendToken.value].price) {
+            setPrice(data.data[sendToken.value].price);
+
+            setReceiveAmount((parseFloat(sendAmount) * data.data[sendToken.value].price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+
+
+          }
+
+        } catch (error) {
+
+          toast.error('Error fetching Solana Token price');
         }
-
       }
       else if (chain.value === "Ethereum") {
 
 
-        const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${sendToken.value}&tsyms=${receiveToken.value}&api_key=${process.env.REACT_APP_CRYPTO_COMPARE_API_KEY}`;
+        try {
+          const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${sendToken.value}&tsyms=${receiveToken.value}&api_key=${process.env.REACT_APP_CRYPTO_COMPARE_API_KEY}`;
 
-        const response = await fetch(url);
-        const data = await response.json();
+          const response = await fetch(url);
+          const data = await response.json();
 
-        if (data && data[sendToken.value][receiveToken.value]) {
-          setPrice(data[sendToken.value][receiveToken.value]);
-          setReceiveAmount((parseFloat(sendAmount) * data[sendToken.value][receiveToken.value]).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+          if (data && data[sendToken.value][receiveToken.value]) {
+            setPrice(data[sendToken.value][receiveToken.value]);
+            setReceiveAmount((parseFloat(sendAmount) * data[sendToken.value][receiveToken.value]).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+          }
+        }
+        catch (error) {
+          toast.error('Error fetching Ethereum Token price');
         }
       }
 
@@ -172,7 +184,10 @@ function App() {
 
     };
 
+
     fetchPrice();
+
+
   }, [sendToken, receiveToken, chain]);
 
 
@@ -180,6 +195,7 @@ function App() {
 
   return (
     <div className="app">
+      <ToastContainer />
       <div className="navbar">
         <Logo className='logo' />
 
@@ -187,11 +203,7 @@ function App() {
       </div>
 
 
-      <div className="main-section">
-        {/* <select value={chain} className='select-chain' onChange={handleChainChange}>
-          <option value="Solana">Solana</option>
-          <option value="Ethereum">Ethereum</option>
-        </select> */}
+      <div className="main-section" >
 
         <Select
           className='select-chain select'
@@ -215,7 +227,7 @@ function App() {
         </div>
 
 
-        <button>
+        <button >
           <span>
             Swap
           </span>
