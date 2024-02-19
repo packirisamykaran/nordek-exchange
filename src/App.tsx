@@ -290,6 +290,16 @@ function App() {
           value={chain}
           onChange={handleChainChange}
           options={chainOptions}
+          styles={{
+            singleValue: (provided) => ({
+              ...provided,
+              color: 'white',
+            }),
+            option: (provided) => ({
+              ...provided,
+              color: 'white',
+            }),
+          }}
         />
 
 
@@ -310,7 +320,16 @@ function App() {
           </div>
           <Swap className={`swap-icon ${switchToken ? 'swap-icon-spin' : ''}`} onClick={switchTokenChange} />
           <div className="input-group">
-            <Select name="receive-token" className='receive-token select' onChange={receiveTokenChange} value={receiveToken} options={chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions} />
+            <Select styles={{
+              singleValue: (provided) => ({
+                ...provided,
+                color: 'white',
+              }),
+              option: (provided) => ({
+                ...provided,
+                color: 'white',
+              }),
+            }} name="receive-token" className='receive-token select' onChange={receiveTokenChange} value={receiveToken} options={chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions} />
             <input type="text" name="receive-amount" className='receive-amount' onChange={handleAmountChange} value={receiveAmount} placeholder='0.00' onBlur={handleBlur} />
           </div>
           <div className="usd-value">
