@@ -271,6 +271,8 @@ function App() {
 
 
 
+
+
   return (
     <div className="app">
       <ToastContainer />
@@ -294,7 +296,16 @@ function App() {
 
         <div className="swap-section">
           <div className="input-group">
-            <Select name="send-token" className='send-token select' onChange={sendTokenChange} value={sendToken} options={chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions} />
+            <Select styles={{
+              singleValue: (provided) => ({
+                ...provided,
+                color: 'white',
+              }),
+              option: (provided) => ({
+                ...provided,
+                color: 'white',
+              }),
+            }} name="send-token" className='send-token select' onChange={sendTokenChange} value={sendToken} options={chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions} />
             <input type="text" name="send-amount" className='send-amount' onChange={handleAmountChange} value={sendAmount} placeholder='0.00' onBlur={handleBlur} />
           </div>
           <Swap className={`swap-icon ${switchToken ? 'swap-icon-spin' : ''}`} onClick={switchTokenChange} />

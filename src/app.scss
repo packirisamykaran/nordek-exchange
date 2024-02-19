@@ -11,6 +11,8 @@ $grey1: #1c2936;
 $grey2: #314256;
 $grey3: #111d28;
 
+
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -211,6 +213,6 @@ $grey3: #111d28;
   color: white;
 }
 
-#root>div>div.main-section>div.select-chain.select.css-b62m3t-container>div>div.css-hlgwow>div.css-1dimb5e-singleValue {
-  color: white;
-}
+// .select.css-b62m3t-container>div>div.css-hlgwow>div.css-1dimb5e-singleValue {
+//   color: white;
+// }
