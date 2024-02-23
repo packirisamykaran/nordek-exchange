@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
 import Select from 'react-select';
-
-
 import { SingleValue } from 'react-select';
 import { toast } from 'react-toastify';
 import { ReactComponent as SwapSVG } from '../assets/swap icon.svg';
@@ -17,6 +14,9 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useWeb3ModalAccount } from '@web3modal/ethers/react';
 
 
+// Validation
+import { swapValidation } from '../utils/inputValidation';
+
 interface SwapProps {
   chain: OptionType;
   chainOptions: { value: string, label: string }[];
@@ -28,8 +28,6 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
   // wallets
   const { publicKey } = useWallet();
   const { address, isConnected } = useWeb3ModalAccount();
-
-
 
   // Swap state
   const {
@@ -160,31 +158,10 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
   // Swap Function
   const swap = async () => {
 
-    // Swap value validation
-    if (sendAmount === "" || receiveAmount === "" || parseFloat(sendAmount) === 0 || parseFloat(receiveAmount) === 0) {
-      toast.error('Enter Token Amount to Swap');
-      return;
+    // Swap validation
+    if (!swapValidation({ sendAmount, receiveAmount, sendToken, receiveToken, publicKey, isConnected, chain })) {
+      return
     }
-
-    // Same token validation
-    if (sendToken.value === receiveToken.value) {
-      toast.error('Cannot Swap Same Token');
-      return;
-    }
-
-
-    // Wallet connected validation
-
-    if (chain.value === "Ethereum" && !isConnected) {
-      toast.error('Connect Wallet to Swap');
-      return;
-    }
-    else if (chain.value === "Solana" && !publicKey) {
-      toast.error('Connect Wallet to Swap');
-      return;
-    }
-
-
 
 
     // Success message
