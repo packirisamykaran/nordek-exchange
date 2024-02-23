@@ -49,3 +49,51 @@ export function swapValidation({
 
   return true;
 }
+
+interface AmountChangeValidation {
+  event: React.ChangeEvent<HTMLInputElement>;
+  setSendAmount: { (amount: any): void };
+  setReceiveAmount: { (amount: any): void };
+  price: any;
+}
+
+export function amountChangeValidation({
+  event,
+  setSendAmount,
+  setReceiveAmount,
+  price,
+}: AmountChangeValidation) {
+  let value = event.target.value;
+
+  if (value === "") {
+    setSendAmount("");
+    setReceiveAmount("");
+    return;
+  }
+  if (value === ".") {
+    value = "0.";
+  }
+  if (value === "00") {
+    value = "0";
+  }
+
+  if (/^[0-9]*\.?[0-9]*$/.test(value)) {
+    if (event.target.name === "send-amount") {
+      setSendAmount(value);
+      setReceiveAmount(
+        (parseFloat(value) * price).toLocaleString(undefined, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 6,
+        })
+      );
+    } else if (event.target.name === "receive-amount") {
+      setReceiveAmount(value);
+      setSendAmount(
+        (parseFloat(value) / price).toLocaleString(undefined, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 6,
+        })
+      );
+    }
+  }
+}

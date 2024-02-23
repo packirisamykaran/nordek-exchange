@@ -15,7 +15,7 @@ import { useWeb3ModalAccount } from '@web3modal/ethers/react';
 
 
 // Validation
-import { swapValidation } from '../utils/inputValidation';
+import { swapValidation, amountChangeValidation } from '../utils/inputValidation';
 
 interface SwapProps {
   chain: OptionType;
@@ -63,37 +63,8 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
   };
 
 
-  // Token Amount change handler
-  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value;
-
-    if (value === "") {
-      setSendAmount("");
-      setReceiveAmount("");
-      return
-    }
-    if (value === ".") {
-      value = "0.";
-
-    }
-    if (value === "00") {
-      value = "0";
-    }
-
-
-    if (/^[0-9]*\.?[0-9]*$/.test(value)) {
-
-      if (event.target.name === "send-amount") {
-        setSendAmount(value);
-        setReceiveAmount((parseFloat(value) * price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
-
-
-      } else if (event.target.name === "receive-amount") {
-        setReceiveAmount(value);
-        setSendAmount((parseFloat(value) / price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
-      }
-    }
-  };
+  // // Token Amount change handler
+  // const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => ;
 
 
   // Animation
@@ -131,11 +102,8 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
   }
 
 
-
-
+  // Fetch price
   useFetchPrice({ chain, sendToken, receiveToken, sendAmount, setPrice, setReceiveAmount, setUSDvalue });
-
-
 
   useEffect(() => {
 
@@ -162,12 +130,12 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
     if (!swapValidation({ sendAmount, receiveAmount, sendToken, receiveToken, publicKey, isConnected, chain })) {
       return
     }
-
-
     // Success message
     toast.success('Swap Successful');
 
   }
+
+
 
 
   const tokenSelectOptions = chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions;
@@ -190,12 +158,12 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
         <div className="swap-section">
           <div className="input-group">
             <Select styles={selectStyles} name="send-token" className='send-token select' onChange={sendTokenChange} value={sendToken} options={tokenSelectOptions} />
-            <input type="text" name="send-amount" className='send-amount' onChange={handleAmountChange} value={sendAmount} placeholder='0.00' onBlur={handleBlur} />
+            <input type="text" name="send-amount" className='send-amount' onChange={(event) => amountChangeValidation({ event, setReceiveAmount, setSendAmount, price })} value={sendAmount} placeholder='0.00' onBlur={handleBlur} />
           </div>
           <SwapSVG className={`swap-icon ${switchToken ? 'swap-icon-spin' : ''}`} onClick={switchTokenChange} />
           <div className="input-group">
             <Select styles={selectStyles} name="receive-token" className='receive-token select' onChange={receiveTokenChange} value={receiveToken} options={tokenSelectOptions} />
-            <input type="text" name="receive-amount" className='receive-amount' onChange={handleAmountChange} value={receiveAmount} placeholder='0.00' onBlur={handleBlur} />
+            <input type="text" name="receive-amount" className='receive-amount' onChange={(event) => amountChangeValidation({ event, setReceiveAmount, setSendAmount, price })} value={receiveAmount} placeholder='0.00' onBlur={handleBlur} />
           </div>
           <div className="usd-value">
             {`$${calculatedUSDValue} USD`}
