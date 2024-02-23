@@ -8,23 +8,35 @@ import { toast } from 'react-toastify';
 import { ReactComponent as SwapSVG } from '../assets/swap icon.svg';
 import { OptionType } from '../utils/types';
 import { solanaTokenOptions, ethereumTokenOptions } from '../utils/constants';
+import useSwapState from '../hooks/useSwapState';
+import useFetchPrice from '../hooks/useFetchPrice';
 
 
 interface SwapProps {
-
   chain: OptionType;
   chainOptions: { value: string, label: string }[];
   handleChainChange: (option: SingleValue<OptionType>) => void;
-
 }
 
 export default function Swap({ chain, chainOptions, handleChainChange }: SwapProps) {
 
+  const {
+    sendToken,
+    setSendToken,
+    receiveToken,
+    setReceiveToken,
+    sendAmount,
+    setSendAmount,
+    receiveAmount,
+    setReceiveAmount,
+    price,
+    setPrice,
+    USDvalue,
+    setUSDvalue
+  } = useSwapState();
 
 
-  // Tokens
-  const [sendToken, setSendToken] = useState(solanaTokenOptions[0]);
-  const [receiveToken, setReceiveToken] = useState(solanaTokenOptions[1]);
+
 
   // Token change handler
   const sendTokenChange = (option: SingleValue<OptionType>) => {
@@ -45,9 +57,7 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
 
 
-  // Amounts
-  const [sendAmount, setSendAmount] = useState("1.00");
-  const [receiveAmount, setReceiveAmount] = useState("0.00");
+
 
   // Token Amount change handler
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,9 +95,6 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
 
 
-  // Price
-  const [price, setPrice] = useState(0);
-  const [USDvalue, setUSDvalue] = useState(0);
 
 
 
@@ -135,75 +142,78 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
 
 
-  // Fetch price
-  const fetchSolanaData = async () => {
+  // // Fetch price
+  // const fetchSolanaData = async () => {
 
-    try {
-      // Swap pricing
-      const url = `https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=${receiveToken.value}`;
-      const response = await fetch(url);
-      const data = await response.json();
-
-
-      if (data && data.data[sendToken.value].price) {
-        setPrice(data.data[sendToken.value].price);
-
-        setReceiveAmount((parseFloat(sendAmount) * data.data[sendToken.value].price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
-
-        let usdValueResponse = await fetch(`https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=USDC`);
-        let usdValueData = await usdValueResponse.json();
-        setUSDvalue(usdValueData.data[sendToken.value].price.toFixed(2));
-
-      }
-    } catch (error) {
-      console.log(error)
-
-      toast.error('Error fetching Solana Token price');
-    }
-  }
-
-  const fetchEthereumData = async () => {
-    try {
-      const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${sendToken.value}&tsyms=${receiveToken.value}&api_key=${process.env.REACT_APP_CRYPTO_COMPARE_API_KEY}`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data && data[sendToken.value][receiveToken.value]) {
-        setPrice(data[sendToken.value][receiveToken.value]);
-        setReceiveAmount((parseFloat(sendAmount) * data[sendToken.value][receiveToken.value]).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
-
-        let usdValueResponse = await fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=${sendToken.value}&tsyms=USD&api_key=${process.env.REACT_APP_CRYPTO_COMPARE_API_KEY}`);
-        let usdValueData = await usdValueResponse.json();
-        setUSDvalue(usdValueData[sendToken.value].USD.toFixed(2));
+  //   try {
+  //     // Swap pricing
+  //     const url = `https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=${receiveToken.value}`;
+  //     const response = await fetch(url);
+  //     const data = await response.json();
 
 
-      }
-    }
-    catch (error) {
-      toast.error('Error fetching Ethereum Token price');
-    }
-  }
+  //     if (data && data.data[sendToken.value].price) {
+  //       setPrice(data.data[sendToken.value].price);
 
-  // Fetch price on token change
-  useEffect(() => {
-    const fetchPrice = async () => {
+  //       setReceiveAmount((parseFloat(sendAmount) * data.data[sendToken.value].price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
 
-      if (chain.value === "Solana") {
-        await fetchSolanaData();
+  //       let usdValueResponse = await fetch(`https://price.jup.ag/v4/price?ids=${sendToken.value}&vsToken=USDC`);
+  //       let usdValueData = await usdValueResponse.json();
+  //       setUSDvalue(usdValueData.data[sendToken.value].price.toFixed(2));
 
-      }
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
 
-      else if (chain.value === "Ethereum") {
+  //     toast.error('Error fetching Solana Token price');
+  //   }
+  // }
 
-        await fetchEthereumData();
+  // const fetchEthereumData = async () => {
+  //   try {
+  //     const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${sendToken.value}&tsyms=${receiveToken.value}&api_key=${process.env.REACT_APP_CRYPTO_COMPARE_API_KEY}`;
 
-      }
-    };
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+
+  //     if (data && data[sendToken.value][receiveToken.value]) {
+  //       setPrice(data[sendToken.value][receiveToken.value]);
+  //       setReceiveAmount((parseFloat(sendAmount) * data[sendToken.value][receiveToken.value]).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 6 }));
+
+  //       let usdValueResponse = await fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=${sendToken.value}&tsyms=USD&api_key=${process.env.REACT_APP_CRYPTO_COMPARE_API_KEY}`);
+  //       let usdValueData = await usdValueResponse.json();
+  //       setUSDvalue(usdValueData[sendToken.value].USD.toFixed(2));
 
 
-    fetchPrice();
-  }, [sendToken, receiveToken]);
+  //     }
+  //   }
+  //   catch (error) {
+  //     toast.error('Error fetching Ethereum Token price');
+  //   }
+  // }
+
+  // // Fetch price on token change
+  // useEffect(() => {
+  //   const fetchPrice = async () => {
+
+  //     if (chain.value === "Solana") {
+  //       await fetchSolanaData();
+
+  //     }
+
+  //     else if (chain.value === "Ethereum") {
+
+  //       await fetchEthereumData();
+
+  //     }
+  //   };
+
+
+  //   fetchPrice();
+  // }, [sendToken, receiveToken]);
+
+
+  useFetchPrice({ chain, sendToken, receiveToken, sendAmount, setPrice, setReceiveAmount, setUSDvalue });
 
 
 
@@ -245,10 +255,6 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
     toast.success('Swap Successful');
 
   }
-
-
-
-
 
 
 
@@ -308,3 +314,8 @@ const selectStyles = {
     color: 'white',
   }),
 };
+
+
+
+
+
