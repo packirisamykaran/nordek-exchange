@@ -63,10 +63,6 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
   };
 
 
-  // // Token Amount change handler
-  // const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => ;
-
-
   // Animation
   const [switchToken, setSwitchToken] = useState(false);
 
@@ -106,19 +102,16 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
   useFetchPrice({ chain, sendToken, receiveToken, sendAmount, setPrice, setReceiveAmount, setUSDvalue });
 
   useEffect(() => {
-
     if (chain.value === "Ethereum") {
       setSendToken(ethereumTokenOptions[0]);
       setReceiveToken(ethereumTokenOptions[1]);
-
     }
     else if (chain.value === "Solana") {
       setSendToken(solanaTokenOptions[0]);
       setReceiveToken(solanaTokenOptions[1]);
     }
 
-  }
-    , [chain]);
+  }, [chain]);
 
 
 
@@ -137,12 +130,8 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
 
 
-
   const tokenSelectOptions = chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions;
-
   const calculatedUSDValue = sendAmount ? (USDvalue * parseFloat(sendAmount)).toFixed(2) : "0";
-
-
 
   return (
     <div className="gradient-swap-wrapper">
@@ -169,8 +158,6 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
             {`$${calculatedUSDValue} USD`}
           </div>
         </div>
-
-
         <button onClick={swap} >
           <span>
             Swap
