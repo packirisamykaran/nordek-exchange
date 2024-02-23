@@ -58,6 +58,9 @@ $grey3: #111d28;
   }
 }
 
+
+
+
 .app {
   position: relative;
   min-height: 90vh;
@@ -79,9 +82,10 @@ $grey3: #111d28;
     gap: 1rem;
     border-radius: 10px;
     position: sticky;
-    background: linear-gradient(135deg, $logo-purple, $logo-blue);
+    background: linear-gradient(135deg, $logo-purple, $plum);
     animation: easeUp 0.5s ease forwards;
     transform: translateY(20px);
+    z-index: 1;
 
 
     .logo {
@@ -107,7 +111,8 @@ $grey3: #111d28;
     left: 50%;
     padding: 2px;
 
-    background: linear-gradient(135deg, $deep-pink, $medium-blue);
+
+    background: linear-gradient(135deg, $deep-pink, $logo-blue);
     border-radius: 20px;
     animation: easeUpSwap 0.5s ease forwards;
 
@@ -121,7 +126,7 @@ $grey3: #111d28;
 
       // border: 4px solid transparent;
 
-      overflow: hidden;
+
       border-radius: 20px;
 
 
@@ -158,6 +163,7 @@ $grey3: #111d28;
       }
 
 
+
       .select>* {
         background: $grey2;
         border: none;
@@ -165,6 +171,9 @@ $grey3: #111d28;
 
 
       }
+
+
+
 
       .select-chain {
         width: fit-content;

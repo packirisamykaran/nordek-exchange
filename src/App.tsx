@@ -32,6 +32,7 @@ function App() {
 
   return (
     <div className="app">
+
       <ToastContainer />
       <div className="navbar">
         <Logo className='logo' />

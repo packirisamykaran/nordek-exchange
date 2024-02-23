@@ -62,7 +62,9 @@ root.render(
     <ConnectionProvider endpoint={clusterApiUrl(network)}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
+          <div className="app-bg"></div>
           <App />
+
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
