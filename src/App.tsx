@@ -6,9 +6,6 @@ import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { OptionType } from './utils/types';
 
-
-
-
 import { SingleValue } from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
 import Swap from './components/Swap';
@@ -33,14 +30,11 @@ function App() {
   };
 
 
-
-
   return (
     <div className="app">
       <ToastContainer />
       <div className="navbar">
         <Logo className='logo' />
-
         <Wallets chain={chain.value} />
       </div>
       <Swap

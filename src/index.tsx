@@ -11,9 +11,9 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
 
 
-
-// Default styles that can be overridden by your app's styles
 require('@solana/wallet-adapter-react-ui/styles.css');
+
+
 
 const wallets = [
   new PhantomWalletAdapter(),
@@ -23,10 +23,8 @@ const wallets = [
 
 ];
 
-const network = WalletAdapterNetwork.Mainnet; // Change this to 'testnet' or 'devnet' as neede
+const network = WalletAdapterNetwork.Mainnet;
 
-
-// Ethereum Wallet
 // 1. Get projectId at https://cloud.walletconnect.com
 const projectId = 'YOUR_PROJECT_ID'
 
@@ -55,6 +53,7 @@ createWeb3Modal({
 })
 
 
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -74,3 +73,7 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+
+

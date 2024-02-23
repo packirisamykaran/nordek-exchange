@@ -26,20 +26,6 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
   const [sendToken, setSendToken] = useState(solanaTokenOptions[0]);
   const [receiveToken, setReceiveToken] = useState(solanaTokenOptions[1]);
 
-  // Price
-  const [price, setPrice] = useState(0);
-  const [USDvalue, setUSDvalue] = useState(0);
-
-
-  // Amounts
-  const [sendAmount, setSendAmount] = useState("1.00");
-  const [receiveAmount, setReceiveAmount] = useState("0.00");
-
-
-  // Animation
-  const [switchToken, setSwitchToken] = useState(false);
-
-
   // Token change handler
   const sendTokenChange = (option: SingleValue<OptionType>) => {
     setSendToken(option as OptionType);
@@ -49,6 +35,19 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
     setReceiveToken(option as OptionType);
   };
+
+  // Switch token
+  const switchTokenChange = () => {
+    setSwitchToken(!switchToken);
+    setSendToken(receiveToken);
+    setReceiveToken(sendToken);
+  };
+
+
+
+  // Amounts
+  const [sendAmount, setSendAmount] = useState("1.00");
+  const [receiveAmount, setReceiveAmount] = useState("0.00");
 
   // Token Amount change handler
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,6 +81,20 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
     }
   };
+
+
+
+
+  // Price
+  const [price, setPrice] = useState(0);
+  const [USDvalue, setUSDvalue] = useState(0);
+
+
+
+  // Animation
+  const [switchToken, setSwitchToken] = useState(false);
+
+
 
 
   // input onblur validation
@@ -118,12 +131,7 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
 
 
-  // Switch token
-  const switchTokenChange = () => {
-    setSwitchToken(!switchToken);
-    setSendToken(receiveToken);
-    setReceiveToken(sendToken);
-  };
+
 
 
 
@@ -245,68 +253,58 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
 
 
+  const tokenSelectOptions = chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions;
+
+  const calculatedUSDValue = sendAmount ? (USDvalue * parseFloat(sendAmount)).toFixed(2) : "0";
+
+
+
   return (
-    <div className="main-section" >
+    <div className="gradient-swap-wrapper">
+      <div className="swap" >
 
-      <Select
-        className='select-chain select'
-        value={chain}
-        onChange={handleChainChange}
-        options={chainOptions}
-        styles={{
-          singleValue: (provided) => ({
-            ...provided,
-            color: 'white',
-          }),
-          option: (provided) => ({
-            ...provided,
-            color: 'white',
-          }),
-        }}
-      />
-
-
-
-      <div className="swap-section">
-        <div className="input-group">
-          <Select styles={{
-            singleValue: (provided) => ({
-              ...provided,
-              color: 'white',
-            }),
-            option: (provided) => ({
-              ...provided,
-              color: 'white',
-            }),
-          }} name="send-token" className='send-token select' onChange={sendTokenChange} value={sendToken} options={chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions} />
-          <input type="text" name="send-amount" className='send-amount' onChange={handleAmountChange} value={sendAmount} placeholder='0.00' onBlur={handleBlur} />
+        <Select
+          className='select-chain select'
+          value={chain}
+          onChange={handleChainChange}
+          options={chainOptions}
+          styles={selectStyles}
+        />
+        <div className="swap-section">
+          <div className="input-group">
+            <Select styles={selectStyles} name="send-token" className='send-token select' onChange={sendTokenChange} value={sendToken} options={tokenSelectOptions} />
+            <input type="text" name="send-amount" className='send-amount' onChange={handleAmountChange} value={sendAmount} placeholder='0.00' onBlur={handleBlur} />
+          </div>
+          <SwapSVG className={`swap-icon ${switchToken ? 'swap-icon-spin' : ''}`} onClick={switchTokenChange} />
+          <div className="input-group">
+            <Select styles={selectStyles} name="receive-token" className='receive-token select' onChange={receiveTokenChange} value={receiveToken} options={tokenSelectOptions} />
+            <input type="text" name="receive-amount" className='receive-amount' onChange={handleAmountChange} value={receiveAmount} placeholder='0.00' onBlur={handleBlur} />
+          </div>
+          <div className="usd-value">
+            {`$${calculatedUSDValue} USD`}
+          </div>
         </div>
-        <SwapSVG className={`swap-icon ${switchToken ? 'swap-icon-spin' : ''}`} onClick={switchTokenChange} />
-        <div className="input-group">
-          <Select styles={{
-            singleValue: (provided) => ({
-              ...provided,
-              color: 'white',
-            }),
-            option: (provided) => ({
-              ...provided,
-              color: 'white',
-            }),
-          }} name="receive-token" className='receive-token select' onChange={receiveTokenChange} value={receiveToken} options={chain.value === "Solana" ? solanaTokenOptions : ethereumTokenOptions} />
-          <input type="text" name="receive-amount" className='receive-amount' onChange={handleAmountChange} value={receiveAmount} placeholder='0.00' onBlur={handleBlur} />
-        </div>
-        <div className="usd-value">
-          {`$${sendAmount ? (USDvalue * parseFloat(sendAmount)).toFixed(2) : "0"} USD`}
-        </div>
+
+
+        <button onClick={swap} >
+          <span>
+            Swap
+          </span>
+        </button>
+
       </div>
-
-
-      <button onClick={swap} >
-        <span>
-          Swap
-        </span>
-      </button>
-
     </div>
   )
 }
+
+
+const selectStyles = {
+  singleValue: (provided: any) => ({
+    ...provided,
+    color: 'white',
+  }),
+  option: (provided: any) => ({
+    ...provided,
+    color: 'white',
+  }),
+};

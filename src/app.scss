@@ -33,6 +33,31 @@ $grey3: #111d28;
   }
 }
 
+@keyframes easeUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes easeUpSwap {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+}
+
 .app {
   position: relative;
   min-height: 90vh;
@@ -54,6 +79,10 @@ $grey3: #111d28;
     gap: 1rem;
     border-radius: 10px;
     position: sticky;
+    background: linear-gradient(135deg, $logo-purple, $logo-blue);
+    animation: easeUp 0.5s ease forwards;
+    transform: translateY(20px);
+
 
     .logo {
       max-width: 150px;
@@ -61,146 +90,170 @@ $grey3: #111d28;
     }
 
 
+
+
+
   }
 
-  .main-section {
 
+
+
+  .gradient-swap-wrapper {
     width: 90%;
     max-width: 600px;
     margin-inline: auto;
     position: absolute;
     top: 25%;
     left: 50%;
-    transform: translateY(-50%);
-    transform: translateX(-50%);
-    padding: 1rem 0;
-    background: $grey3;
+    padding: 2px;
+
+    background: linear-gradient(135deg, $deep-pink, $medium-blue);
     border-radius: 20px;
+    animation: easeUpSwap 0.5s ease forwards;
+
+
+
+    .swap {
+
+
+      padding: 1rem 0;
+      background: $grey;
+
+      // border: 4px solid transparent;
+
+      overflow: hidden;
+      border-radius: 20px;
 
 
 
 
 
-    button {
 
-      padding: 0.5rem 2.5rem;
-      font-weight: 500;
-      margin: 1rem auto;
-      display: block;
-      font-size: 1.25rem;
-      border-radius: 10px;
-      border: none;
-      background-color: $grey;
-      cursor: pointer;
+      button {
 
-      span {
-        color: transparent;
-        background: linear-gradient(to right, $logo-blue, $logo-purple);
-        background-clip: text;
+        padding: 0.5rem 2.5rem;
+        font-weight: 500;
+        margin: 1rem auto;
+        display: block;
+        font-size: 1.25rem;
+        border-radius: 10px;
+        border: none;
+        background: linear-gradient(135deg, $logo-purple, $logo-blue);
+
+        cursor: pointer;
+
+        span {
+          color: transparent;
+          // background: linear-gradient(to right, $logo-blue, $logo-purple);
+          color: white;
+          background-clip: text;
+        }
+
+
+
+      }
+
+      button:active {
+        scale: 1.05;
+      }
+
+
+      .select>* {
+        background: $grey2;
+        border: none;
+        caret-color: transparent;
+
+
+      }
+
+      .select-chain {
+        width: fit-content;
+
+        margin: 1rem auto;
+
       }
 
 
 
-    }
+      .swap-section {
 
-    button:active {
-      scale: 1.05;
-    }
+        padding: 0.5rem;
 
-
-    .select>* {
-      background: $grey2;
-      border: none;
-      caret-color: transparent;
-
-    }
-
-    .select-chain {
-      width: fit-content;
-
-      margin: 1rem auto;
-
-    }
-
-
-
-    .swap-section {
-
-      padding: 0.5rem;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-
-
-
-      .input-group {
         display: flex;
-        flex-direction: row;
-        gap: 0.25rem;
-        width: 100%;
-        justify-content: space-between;
-        padding: 0.5rem 0.75rem;
-        background-color: $grey1;
-        border-radius: 10px;
-        max-width: 400px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+
+
+        .input-group {
+          display: flex;
+          flex-direction: row;
+          gap: 0.25rem;
+          width: 100%;
+          justify-content: space-between;
+          padding: 0.5rem 0.75rem;
+          background-color: $grey1;
+          border-radius: 10px;
+          max-width: 400px;
 
 
 
 
 
 
-        input[type="text"] {
-          background: transparent;
-          color: white;
-          text-align: end;
-          border: none;
-          font-size: 1.5rem;
-          width: fit-content;
-          padding: 0;
-          width: 50%;
-          outline: none;
-          font-family: sans-serif;
+
+          input[type="text"] {
+            background: transparent;
+            color: white;
+            text-align: end;
+            border: none;
+            font-size: 1.5rem;
+            width: fit-content;
+            padding: 0;
+            width: 50%;
+            outline: none;
+            font-family: sans-serif;
+
+          }
+
 
         }
 
 
+        .swap-icon {
+          max-width: 30px;
+          height: auto;
+          cursor: pointer;
+          filter: invert(1);
+
+          animation: spinback 0.2s linear;
+
+        }
+
+        .swap-icon-spin {
+          animation: spin 0.2s linear;
+        }
+
+
+        .usd-value {
+          color: rgba(255, 255, 255, 0.725);
+          font-size: 1.25rem;
+          font-weight: 500;
+          text-align: end;
+          font-family: sans-serif;
+
+
+
+        }
+
+
+
       }
-
-
-      .swap-icon {
-        max-width: 30px;
-        height: auto;
-        cursor: pointer;
-        filter: invert(1);
-
-        animation: spinback 0.2s linear;
-
-      }
-
-      .swap-icon-spin {
-        animation: spin 0.2s linear;
-      }
-
-
-      .usd-value {
-        color: rgba(255, 255, 255, 0.725);
-        font-size: 1.25rem;
-        font-weight: 500;
-        text-align: end;
-        font-family: sans-serif;
-
-
-
-      }
-
 
 
     }
-
-
   }
 
 }

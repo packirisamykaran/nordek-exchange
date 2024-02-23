@@ -14,6 +14,27 @@
     transform: rotate(0deg);
   }
 }
+@keyframes easeUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes easeUpSwap {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+}
 .app {
   position: relative;
   min-height: 90vh;
@@ -31,25 +52,33 @@
   gap: 1rem;
   border-radius: 10px;
   position: sticky;
+  background: linear-gradient(135deg, #6d65fc, #6dc7ec);
+  animation: easeUp 0.5s ease forwards;
+  transform: translateY(20px);
 }
 .app .navbar .logo {
   max-width: 150px;
   width: 30%;
 }
-.app .main-section {
+.app .gradient-swap-wrapper {
   width: 90%;
   max-width: 600px;
   margin-inline: auto;
   position: absolute;
   top: 25%;
   left: 50%;
-  transform: translateY(-50%);
-  transform: translateX(-50%);
+  padding: 2px;
+  background: linear-gradient(135deg, #d846a5, #4d0eae);
+  border-radius: 20px;
+  animation: easeUpSwap 0.5s ease forwards;
+}
+.app .gradient-swap-wrapper .swap {
   padding: 1rem 0;
-  background: #111d28;
+  background: #141414;
+  overflow: hidden;
   border-radius: 20px;
 }
-.app .main-section button {
+.app .gradient-swap-wrapper .swap button {
   padding: 0.5rem 2.5rem;
   font-weight: 500;
   margin: 1rem auto;
@@ -57,29 +86,29 @@
   font-size: 1.25rem;
   border-radius: 10px;
   border: none;
-  background-color: #141414;
+  background: linear-gradient(135deg, #6d65fc, #6dc7ec);
   cursor: pointer;
 }
-.app .main-section button span {
+.app .gradient-swap-wrapper .swap button span {
   color: transparent;
-  background: linear-gradient(to right, #6dc7ec, #6d65fc);
+  color: white;
   -webkit-background-clip: text;
           background-clip: text;
 }
-.app .main-section button:active {
+.app .gradient-swap-wrapper .swap button:active {
   scale: 1.05;
 }
-.app .main-section .select > * {
+.app .gradient-swap-wrapper .swap .select > * {
   background: #314256;
   border: none;
   caret-color: transparent;
 }
-.app .main-section .select-chain {
+.app .gradient-swap-wrapper .swap .select-chain {
   width: -moz-fit-content;
   width: fit-content;
   margin: 1rem auto;
 }
-.app .main-section .swap-section {
+.app .gradient-swap-wrapper .swap .swap-section {
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -87,7 +116,7 @@
   justify-content: center;
   gap: 1rem;
 }
-.app .main-section .swap-section .input-group {
+.app .gradient-swap-wrapper .swap .swap-section .input-group {
   display: flex;
   flex-direction: row;
   gap: 0.25rem;
@@ -98,7 +127,7 @@
   border-radius: 10px;
   max-width: 400px;
 }
-.app .main-section .swap-section .input-group input[type=text] {
+.app .gradient-swap-wrapper .swap .swap-section .input-group input[type=text] {
   background: transparent;
   color: white;
   text-align: end;
@@ -111,17 +140,17 @@
   outline: none;
   font-family: sans-serif;
 }
-.app .main-section .swap-section .swap-icon {
+.app .gradient-swap-wrapper .swap .swap-section .swap-icon {
   max-width: 30px;
   height: auto;
   cursor: pointer;
   filter: invert(1);
   animation: spinback 0.2s linear;
 }
-.app .main-section .swap-section .swap-icon-spin {
+.app .gradient-swap-wrapper .swap .swap-section .swap-icon-spin {
   animation: spin 0.2s linear;
 }
-.app .main-section .swap-section .usd-value {
+.app .gradient-swap-wrapper .swap .swap-section .usd-value {
   color: rgba(255, 255, 255, 0.725);
   font-size: 1.25rem;
   font-weight: 500;
