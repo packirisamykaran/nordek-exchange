@@ -13,7 +13,7 @@ export default function Wallets({ chain }: WalletsProps) {
 
   return (
     <div className="wallets">
-      {chain === "Solana" ? <WalletMultiButton /> : <w3m-button />}
+      {chain === "Solana" ? <WalletMultiButton className='wallet-button' /> : <w3m-button />}
     </div>
   );
 }
