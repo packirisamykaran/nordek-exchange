@@ -14,7 +14,7 @@ import useFetchPrice from '../hooks/useFetchPrice';
 
 // wallet
 import { useWallet } from '@solana/wallet-adapter-react';
-
+import { useWeb3ModalAccount } from '@web3modal/ethers/react';
 
 
 interface SwapProps {
@@ -27,6 +27,9 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
   // wallets
   const { publicKey } = useWallet();
+  const { address, isConnected } = useWeb3ModalAccount();
+
+
 
   // Swap state
   const {
@@ -172,12 +175,11 @@ export default function Swap({ chain, chainOptions, handleChainChange }: SwapPro
 
     // Wallet connected validation
 
-    if (chain.value === "Ethereum") {
-
+    if (chain.value === "Ethereum" && !isConnected) {
       toast.error('Connect Wallet to Swap');
+      return;
     }
     else if (chain.value === "Solana" && !publicKey) {
-
       toast.error('Connect Wallet to Swap');
       return;
     }
