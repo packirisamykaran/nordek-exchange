@@ -95,6 +95,18 @@
   -webkit-background-clip: text;
           background-clip: text;
 }
+.app .gradient-swap-wrapper .swap button:hover {
+  background: none;
+  background-color: white;
+  scale: 1.05;
+}
+.app .gradient-swap-wrapper .swap button:hover span {
+  background: linear-gradient(to right, #6dc7ec, #6d65fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline;
+}
 .app .gradient-swap-wrapper .swap button:active {
   scale: 1.05;
 }

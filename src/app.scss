@@ -156,7 +156,23 @@ $grey3: #111d28;
 
 
 
+
       }
+
+      button:hover {
+        background: none;
+        background-color: white;
+        scale: 1.05;
+
+        span {
+          background: linear-gradient(to right, $logo-blue, $logo-purple);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          display: inline;
+        }
+      }
+
 
       button:active {
         scale: 1.05;
@@ -206,6 +222,9 @@ $grey3: #111d28;
           background-color: $grey1;
           border-radius: 10px;
           max-width: 400px;
+
+
+
 
 
 
